@@ -16,9 +16,7 @@ def solution(p: float, x: np.array) -> tuple:
     #scale = np.sqrt(np.var(x)) / np.sqrt(len(x))
     
     size_x = len(x)
-    sigma_h = np.sqrt(np.sum(x**2) / (31 * size_x))
     
-    left = sigma_h / np.sqrt(chi2.ppf(1 - alpha/2, df=size_x))
-    right = sigma_h / np.sqrt(chi2.ppf(alpha/2, df=size_x))
-    
+    left = np.sqrt(size_x * (x ** 2).mean() / (31 * chi2.ppf(q = 1 - alpha / 2, df= 2 * size_x)))
+    right = np.sqrt(size_x * (x ** 2).mean() / (31 * chi2.ppf(q = alpha / 2, df= 2 * size_x)))   
     return (left, right)
