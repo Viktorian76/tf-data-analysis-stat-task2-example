@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from scipy.stats import norm
-from scipy.stats import 
+from scipy.stats import chi2
 
 
 chat_id = 344589832 # Ваш chat ID, не меняйте название переменной
@@ -15,8 +15,10 @@ def solution(p: float, x: np.array) -> tuple:
     #loc = x.mean()
     #scale = np.sqrt(np.var(x)) / np.sqrt(len(x))
     
-    size = len(x)
-    left = np.sqrt(size * (x ** 2).mean() / (31 * chi2.ppf(q=1 - alpha / 2, df=2 * size)))
-    right = np.sqrt(size * (x ** 2).mean() / (31 * chi2.ppf(q=alpha / 2, df=2 * size)))
+    size_x = len(x)
+    sigma_h = np.sqrt(np.sum(X**2) / (31 * size_x))
+    
+    left = sigma_h / np.sqrt(chi2.ppf(1 - alpha/2, df=size_x))
+    right = sigma_h / np.sqrt(chi2.ppf(alpha/2, df=size_x))
     
     return (left, right)
